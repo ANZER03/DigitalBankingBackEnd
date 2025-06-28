@@ -1,10 +1,13 @@
 package ma.enset.digitalbankingbackend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Data @NoArgsConstructor
+@AllArgsConstructor
 public class AccountHistoryDTO {
     private String accountId;
     private double balance;
