@@ -21,6 +21,6 @@ public class BankAccount {
     @ManyToOne
     private Customer customer;
     @OneToMany(mappedBy = "bankAccount" , fetch = FetchType.LAZY)
-    private List<AccountOperations> accountOperations;
+    private List<AccountOperation> accountOperations;
 
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class AccountOperations {
+public class AccountOperation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private Date operationdate;
