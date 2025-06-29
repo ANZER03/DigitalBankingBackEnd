@@ -13,12 +13,11 @@ import java.util.Date;
 public class AccountOperation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private Date operationdate;
+    private Date operationDate;
     private double amount;
     @Enumerated(EnumType.STRING)
     private OperationType operationType;
     @ManyToOne
     private BankAccount bankAccount;
     private String description;
-
 }

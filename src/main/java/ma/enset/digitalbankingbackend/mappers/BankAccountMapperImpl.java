@@ -1,5 +1,6 @@
 package ma.enset.digitalbankingbackend.mappers;
 
+import lombok.NoArgsConstructor;
 import ma.enset.digitalbankingbackend.dto.AccountOperationDTO;
 import ma.enset.digitalbankingbackend.dto.CurrentBankAccountDTO;
 import ma.enset.digitalbankingbackend.dto.CustomerDTO;
@@ -11,6 +12,7 @@ import ma.enset.digitalbankingbackend.entities.SavingAccount;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 @Service
+@NoArgsConstructor
 public class BankAccountMapperImpl {
     public CustomerDTO fromCustomer(Customer customer){
         CustomerDTO customerDTO=new CustomerDTO();
@@ -20,6 +22,7 @@ public class BankAccountMapperImpl {
     public Customer fromCustomerDTO(CustomerDTO customerDTO){
         Customer customer=new Customer();
         BeanUtils.copyProperties(customerDTO,customer);
+//        customer.setId(null);
         return  customer;
     }
 
