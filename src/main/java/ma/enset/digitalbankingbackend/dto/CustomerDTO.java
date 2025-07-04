@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerDTO {
-    private long id;
+    private Long id;
     private String name;
     private String email;
 }

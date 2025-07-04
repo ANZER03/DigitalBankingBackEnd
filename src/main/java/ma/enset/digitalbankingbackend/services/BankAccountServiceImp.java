@@ -37,7 +37,7 @@ public class BankAccountServiceImp implements BankAccountService {
     @Override
     public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         Customer customer = dtoMapper.fromCustomerDTO(customerDTO);
-        customer.setId(null);
+//        customer.setId(null);
         Customer savedCustomer = customerRepository.save(customer);
         return dtoMapper.fromCustomer(savedCustomer);
     }
