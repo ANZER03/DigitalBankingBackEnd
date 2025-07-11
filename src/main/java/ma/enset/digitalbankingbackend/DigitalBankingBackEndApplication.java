@@ -17,7 +17,8 @@ import org.springframework.context.annotation.Bean;
 import java.util.List;
 import java.util.stream.Stream;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 public class DigitalBankingBackEndApplication {
 
 	public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class DigitalBankingBackEndApplication {
 	@Bean
 	CommandLineRunner commandLineRunner (BankAccountServiceImp bankAccountService, CustomerRepository customerRepository){
 		return args -> {
-			Stream.of("Hassan","Imane","Mohamed").forEach(name->{
+			Stream.of("Hassan","Imane","Mohamed","Hassan","Anouar","Imane","Mohamed","Hassan","Imane","Mohamed").forEach(name->{
 				CustomerDTO customer=new CustomerDTO();
 				customer.setName(name);
 				customer.setEmail(name+"@gmail.com");
