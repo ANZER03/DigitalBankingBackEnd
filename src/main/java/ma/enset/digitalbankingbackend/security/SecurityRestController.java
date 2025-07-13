@@ -50,7 +50,7 @@ public class SecurityRestController {
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(instant)
                 .subject(username)
-                .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(30, ChronoUnit.MINUTES))
                 .claim("scope" , scope)
                 .build();
 

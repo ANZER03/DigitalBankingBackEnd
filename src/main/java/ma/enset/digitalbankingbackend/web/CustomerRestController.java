@@ -6,6 +6,8 @@ import ma.enset.digitalbankingbackend.dto.CustomerDTO;
 import ma.enset.digitalbankingbackend.exceptions.CustomerNotFoundException;
 import ma.enset.digitalbankingbackend.services.BankAccountService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,14 +15,14 @@ import java.util.List;
 @RestController
 @Slf4j
 @AllArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
 //@CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 public class CustomerRestController {
 
     private BankAccountService bankAccountService;
 
     @GetMapping("/customers")
-    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public List<CustomerDTO> getCostumers(){
         return bankAccountService.listCustomers();
     }
@@ -49,6 +51,11 @@ public class CustomerRestController {
     @DeleteMapping("/customers/{id}")
     public void deleteCustomer(@PathVariable Long id){
         bankAccountService.deleteCustomer(id);
+    }
+
+    @GetMapping("/customer/profile")
+    public CustomerDTO getCustomerProfile(Authentication authentication){
+        return null;
     }
 
 }

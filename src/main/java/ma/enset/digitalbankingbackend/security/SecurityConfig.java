@@ -26,6 +26,9 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -43,30 +46,32 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsManager inMemoryUserDetailsManager() {
-        PasswordEncoder passwordEncoder = this.passwordEncoder();
-        String pass = passwordEncoder.encode("1234");
-        return new InMemoryUserDetailsManager(
-                User.builder()
-                        .username("admin")
-                        .password(pass)
-                        .roles("ADMIN", "USER")
-                        .build(),
-                User.builder()
-                        .username("user1")
-                        .password(pass)
-                        .roles("USER")
-                        .build()
-        );
-    }
+//    @Bean
+//    public UserDetailsManager inMemoryUserDetailsManager() {
+//        PasswordEncoder passwordEncoder = this.passwordEncoder();
+//        String pass = passwordEncoder.encode("1234");
+//        return new InMemoryUserDetailsManager(
+//                User.builder()
+//                        .username("admin")
+//                        .password(pass)
+//                        .roles("ADMIN", "USER")
+//                        .build(),
+//                User.builder()
+//                        .username("user1")
+//                        .password(pass)
+//                        .roles("USER")
+//                        .build()
+//        );
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(au-> au.requestMatchers("/auth/login/**").permitAll())
+                .authorizeHttpRequests(au-> au.requestMatchers("/h2-console/**").permitAll())
                 .authorizeHttpRequests(au -> au.anyRequest().authenticated())
 //                .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(oa-> oa.jwt(Customizer.withDefaults()))
@@ -90,6 +95,18 @@ public class SecurityConfig {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return new ProviderManager(daoAuthenticationProvider);
+    }
+
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource (){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
     }
 
 }
