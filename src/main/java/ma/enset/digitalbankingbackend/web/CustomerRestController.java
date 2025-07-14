@@ -43,7 +43,7 @@ public class CustomerRestController {
     }
 
     @PutMapping("/customers/{customerId}")
-    public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO){
+    public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) throws CustomerNotFoundException {
         customerDTO.setId(customerId);
         return bankAccountService.updateCustomer(customerDTO);
     }
@@ -54,8 +54,10 @@ public class CustomerRestController {
     }
 
     @GetMapping("/customer/profile")
-    public CustomerDTO getCustomerProfile(Authentication authentication){
-        return null;
+    public CustomerDTO getCustomerProfile(Authentication authentication) throws CustomerNotFoundException {
+        JwtAuthenticationToken jwt = (JwtAuthenticationToken) authentication;
+        String username = jwt.getToken().getSubject();
+        return this.bankAccountService.getCustomerByName(username);
     }
 
 }

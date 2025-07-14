@@ -153,9 +153,12 @@ public class BankAccountServiceImp implements BankAccountService {
     }
 
     @Override
-    public CustomerDTO updateCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomer(CustomerDTO customerDTO) throws CustomerNotFoundException {
         log.info("Saving new Customer");
         Customer customer=dtoMapper.fromCustomerDTO(customerDTO);
+        Customer oldCustomer = customerRepository.findById(customerDTO.getId()).orElseThrow(()-> new CustomerNotFoundException("Customer not founded"));
+        customer.setRoles(oldCustomer.getRoles());
+        customer.setPassword(oldCustomer.getPassword());
         Customer savedCustomer = customerRepository.save(customer);
         return dtoMapper.fromCustomer(savedCustomer);
     }
@@ -207,5 +210,14 @@ public class BankAccountServiceImp implements BankAccountService {
 
         return list;
 
+    }
+
+    @Override
+    public CustomerDTO getCustomerByName(String username) throws CustomerNotFoundException {
+       Customer customer =  this.customerRepository.findByName(username);
+       if (customer == null) {
+           throw new CustomerNotFoundException("Customer not founded");
+       }
+       return dtoMapper.fromCustomer(customer);
     }
 }
